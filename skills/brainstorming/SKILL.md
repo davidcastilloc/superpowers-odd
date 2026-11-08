@@ -14,22 +14,25 @@ People often haven't finished working out what they want. Good questions
 help them think it through. When you understand the why, you make the
 hundred decisions they never mention the way they would have made them.
 
-## First: What Do You Actually Know?
+## First: What Do You Actually Know? (ODD Ceremony Scaling)
 
 Before you reply, ask yourself: what do I know about what they want, and
-why?
+why? Scale ceremony to the size of the change (**Organic-Driven Development — ODD**):
 
+- **Micro-change / Bugfix (`< 30` lines of code):** Skip spec/plan ceremony. Go directly to writing/updating the test, implementing the minimal fix, running full verification receipts (`verification-before-completion`), and committing atomically (`multi-instance-handoff`).
 - **Everything that matters is in the request** ("make the icon cornflower
-  blue"). This is a quick, clear task. Do it, and say what you did.
-- **Something non-trivial is missing.** Start the conversation.
+  blue"). This is a quick, clear task. Do it, verify with terminal receipt, and say what you did.
+- **Feature or Architectural Change (`>= 30` lines or something non-trivial is missing):** Start the ODD conversation:
 
-Before you start implementing, you must, in order:
+Before you start implementing a feature (`>= 30` lines), you must, in order:
 
-1. Lay out the approaches in a message of their own, and have your
+1. Use `ripgrep` (`rg`) for surgical recon — never bulk-read ignored directories (`node_modules`, `.venv`, `.svelte-kit`, `dist`, `build`, `target`).
+2. Strictly respect the existing stack (`pyproject.toml`, `Cargo.toml`, `package.json`) — never force unrequested UI libraries or invent dependencies.
+3. Lay out the approaches in a message of their own, and have your
    human partner pick one (see Lay out the approaches).
-2. Write the design doc, short or full (see Size the Work).
-3. Get their approval of that doc.
-4. Invoke the superpowers:writing-plans skill.
+4. Write the design doc in `docs/superpowers/specs/` using only repository-relative paths (never `C:\` or `/Users/`).
+5. Get their approval of that doc.
+6. Invoke the `superpowers:writing-plans` skill.
 
 If nothing is open when you write your first message and there's one
 sensible way, steps 1 to 3 happen in that message (see Your First

@@ -9,7 +9,13 @@ Execute plan by dispatching a fresh implementer subagent per task, a task review
 
 **Why subagents:** You delegate tasks to specialized agents with isolated context. By precisely crafting their instructions and context, you ensure they stay focused and succeed at their task. They should never inherit your session's context or history — you construct exactly what they need. This also preserves your own context for coordination work.
 
-**Core principle:** Fresh subagent per task + task review (spec + quality) + broad final review = high quality, fast iteration
+**Core principle:** Fresh ephemeral subagent per task (`50–200` lines max per iteration) + task review (spec + quality + real terminal receipts) + atomic Git handoff (`docs/superpowers/plans/` checkbox `[x]` + `docs/superpowers/DECISIONS.md`) = Zero Context Rot and seamless multi-instance continuity across Windows, macOS, and Linux/Antigravity.
+
+**ODD + RDD Mandatory Gates for Every Subagent:**
+- **Zero Context Rot:** Ephemeral subagents per task (`50–200` lines max). Never pass accumulated session history between dispatches.
+- **Performance Gate (`rg` first):** Never bulk-read ignored directories (`node_modules`, `.venv`, `.svelte-kit`, `dist`, `build`, `target`, `.wrangler`). Always run surgical `ripgrep` (`rg`) searches before reading files.
+- **Anti-Hallucination Gate:** Forbidden to write fake tests (mocks testing mocks), empty stubs (`TODO` / `pass` / `unimplemented!()`), or delete existing tests to make the suite pass.
+- **Multi-Instance Handoff (`multi-instance-handoff`):** After each task passes review, mark `[x]` in `docs/superpowers/plans/`, update `docs/superpowers/DECISIONS.md` only if a critical technical finding occurred, and commit atomically with `git config user.name "david"` (Semantic Release / Conventional Commits) using repository-relative paths only.
 
 **Narration:** between tool calls, narrate at most one short line — the
 ledger and the tool results carry the record.

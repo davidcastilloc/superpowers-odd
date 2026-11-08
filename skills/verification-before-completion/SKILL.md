@@ -11,26 +11,35 @@ description: Use when about to claim work is complete, fixed, or passing, before
 
 **Violating the letter of this rule is violating the spirit of this rule.**
 
-## The Iron Law
+## The Iron Law (Receipt-Driven Development — RDD)
 
 ```
-NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
+NO COMPLETION CLAIMS WITHOUT FRESH TERMINAL RECEIPTS (LINTER + TYPECHECK + TESTS IN GREEN)
 ```
 
-If you haven't run the verification command in this message, you cannot claim it passes.
+If you haven't run the verification command in this turn and attached the real terminal output receipt, you cannot claim it passes.
+
+## Anti-Hallucination & Multi-OS Integrity Gate
+
+Before claiming completion on any task:
+1. **Zero Fake Tests:** Verify tests exercise real production logic (forbidden to write mocks that only test mocks).
+2. **Zero Empty Stubs:** Verify no `TODO`, `pass`, or `unimplemented!()` placeholders were introduced as fake implementations.
+3. **Zero Deleted Tests:** Verify no existing tests were deleted or weakened to make the test suite pass.
+4. **Multi-OS Path Hygiene:** Verify `git diff` contains zero OS-specific absolute paths (`C:\Users\...`, `/Users/...`, `/home/...`).
+5. **Atomic Handoff Ready:** Verify `git config user.name` returns `"david"`, the task checkbox `[x]` is updated in `docs/superpowers/plans/`, and `docs/superpowers/DECISIONS.md` reflects any critical architectural findings.
 
 ## The Gate Function
 
 ```
 BEFORE claiming any status or expressing satisfaction:
 
-1. IDENTIFY: What command proves this claim?
+1. IDENTIFY: What command proves this claim? (Build + Linter + Typecheck + Test Suite)
 2. RUN: Execute the FULL command (fresh, complete)
-3. READ: Full output, check exit code, count failures
-4. VERIFY: Does output confirm the claim?
+3. READ: Full output, check exit code (must be 0), count failures (must be 0)
+4. VERIFY: Does output confirm the claim without fake mocks, stubs, or deleted tests?
    - If NO: State actual status with evidence
-   - If YES: State claim WITH evidence
-5. ONLY THEN: Make the claim
+   - If YES: State claim WITH real terminal output receipt
+5. ONLY THEN: Make the claim and commit atomically (`multi-instance-handoff`)
 
 Skip any step = lying, not verifying
 ```

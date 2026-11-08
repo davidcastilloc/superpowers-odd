@@ -23,12 +23,14 @@ This is not negotiable. You cannot rationalize your way out of this.
 
 Then announce "Using [skill] to [purpose]" and follow the skill exactly. If it has a checklist, create a todo per item.
 
-## Skill Priority
+## Skill Priority & ODD Ceremony Scaling
 
-When multiple skills apply, process skills come first — they set the approach, then implementation skills (frontend-design, etc.) carry it out. Brainstorming and systematic-debugging are Superpowers' most common process skills, but the rule holds for any of them.
+When multiple skills apply, process skills come first — they set the approach, then implementation skills carry it out:
 
-- "Let's build X" → superpowers:brainstorming first, then implementation skills.
-- "Fix this bug" → superpowers:systematic-debugging first, then domain skills.
+- **Every session start / resume / handoff across Windows, Mac, Linux/Antigravity:** `superpowers:multi-instance-handoff` is ALWAYS active (enforces `docs/superpowers/`, `rg` surgical searches, zero OS absolute paths, `git config user.name "david"`, and atomic `[x]` commits).
+- **Micro-change or bugfix (`< 30` lines):** Go directly to `superpowers:test-driven-development` + `superpowers:verification-before-completion` + `superpowers:multi-instance-handoff` (skip full spec/plan ceremony).
+- **"Let's build X" (`>= 30` lines):** `superpowers:brainstorming` (`docs/superpowers/specs/`) → `superpowers:writing-plans` (`docs/superpowers/plans/`) → `superpowers:subagent-driven-development` → `superpowers:verification-before-completion`.
+- **"Fix this complex bug":** `superpowers:systematic-debugging` first, then domain skills and `superpowers:verification-before-completion`.
 
 ## Red Flags
 

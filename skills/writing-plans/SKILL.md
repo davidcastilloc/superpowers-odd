@@ -31,23 +31,22 @@ Before defining tasks, map out which files will be created or modified and what 
 
 This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
 
-## Task Right-Sizing
+## Task Right-Sizing & ODD Multi-Instance Sync
 
-A task is the smallest unit that carries its own test cycle and is worth a
-fresh reviewer's gate. When drawing task boundaries: fold setup,
-configuration, scaffolding, and documentation steps into the task whose
-deliverable needs them; split only where a reviewer could meaningfully
-reject one task while approving its neighbor. Each task ends with an
-independently testable deliverable.
+A task is the smallest unit that carries its own test cycle (`50–200` lines max per iteration) and is worth a fresh reviewer's gate. When drawing task boundaries:
+- **Zero Context Rot:** Keep each task scoped to `50–200` lines so an ephemeral subagent can execute it cleanly without context bloat.
+- **Multi-OS Relative Paths Only:** Never write OS-dependent absolute paths (`C:\`, `/Users/`, `/home/`) in plans. All paths must be repository-relative.
+- **Stack Fidelity:** Use only dependencies and test runners already present in `pyproject.toml`, `Cargo.toml`, or `package.json`.
+- **Atomic Handoff Checkboxes (`multi-instance-handoff`):** Every task ends with marking `- [x]` in `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`, updating `docs/superpowers/DECISIONS.md` if a critical technical decision was made, and creating an atomic Semantic Release commit (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`) with `git config user.name "david"`.
 
 ## Step Granularity
 
 **Each step is one action with a checkable result:**
-- "Write the failing test" - step
-- "Run it to make sure it fails" - step
-- "Implement the minimal code to make the test pass" - step
-- "Run the tests and make sure they pass" - step
-- "Commit" - step
+- "Write the failing test (real assertions, zero mock-only tests)" - step
+- "Run it to make sure it fails (capture terminal receipt)" - step
+- "Implement the minimal code (`50-200` LOC max, zero `TODO`/`pass` placeholders) to make the test pass" - step
+- "Run linters, typecheck, and tests and capture green terminal receipt" - step
+- "Mark `- [x]` in plan, update `docs/superpowers/DECISIONS.md` if needed, and commit atomically as `david`" - step
 
 ## Plan Document Header
 
